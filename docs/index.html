@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>投资组合智能选择系统</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .card {
+    background: white;
+    border-radius: 24px;
+    padding: 48px;
+    max-width: 520px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  }
+  h1 { font-size: 28px; color: #1d1d1f; margin-bottom: 12px; }
+  p { color: #86868b; font-size: 16px; line-height: 1.6; margin-bottom: 24px; }
+  .btn {
+    display: inline-block;
+    background: #0071E3;
+    color: white;
+    padding: 16px 36px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+  .btn:hover { background: #0077ED; transform: translateY(-2px); }
+  .status { font-size: 14px; color: #86868b; margin-top: 24px; }
+  .status span { color: #34C759; font-weight: 600; }
+  .badge {
+    display: inline-block;
+    background: rgba(52,199,89,0.12);
+    color: #34C759;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+</style>
+<script>
+async function getAppUrl() {
+  try {
+    const resp = await fetch(
+      'https://raw.githubusercontent.com/Zkun0309/investment-portfolio/main/current_url.txt?' + Date.now(),
+      { cache: 'no-cache' }
+    );
+    if (resp.ok) {
+      const url = (await resp.text()).trim().split('\n')[0];
+      if (url && url.startsWith('https://')) {
+        window.location.href = url;
+        return;
+      }
+    }
+  } catch(e) {}
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('offline').style.display = 'block';
+}
+window.onload = getAppUrl;
+</script>
+</head>
+<body>
+<div class="card">
+  <h1>投资组合智能选择系统</h1>
+  <p>智能决策理论与方法 · 第二次作业 · 选题方向四</p>
+  <div id="loading">
+    <div style="font-size:18px;color:#1d1d1f;">正在连接应用...</div>
+    <div class="status" style="margin-top:16px;">如果长时间未跳转，说明应用未启动</div>
+  </div>
+  <div id="offline" style="display:none;">
+    <p style="color:#FF3B30;font-weight:500;">应用当前未运行</p>
+    <p style="font-size:14px;">请先运行 <code>start_server.bat</code> 启动应用，然后刷新此页面。</p>
+    <div style="margin-top:24px;">
+      <span class="badge">永久入口: zkun0309.github.io/investment-portfolio</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>
